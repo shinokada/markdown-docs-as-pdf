@@ -2,6 +2,7 @@ publication.json
 vivliostyle.config.js
 filenames1
 
+
 .DS_Store
 node_modules
 /build

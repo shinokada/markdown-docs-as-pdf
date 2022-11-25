@@ -226,9 +226,10 @@ pnpm i
 ### How to make .git small size
 
 ```
-❯ git clone file:///Users/shinichiokada/Bash_Projects/markdown-docs-as-pdf --depth=1
-❯ git remote set-url origin git@github.com:shinokada/markdown-docs-as-pdf.git
-❯ git count-objects -v
-❯ pnpm i
-❯ rm -rf ./git && git init && git add -A && git commit -m "local clone --depth=1" && git branch -M main && git remote add origin git@github.com:shinokada/markdown-docs-as-pdf.git  && git push origin main --force
+git clone file:///Users/shinichiokada/Bash_Projects/markdown-docs-as-pdf --depth=1
+cd markdown-docs-as-pdf
+git remote set-url origin git@github.com:shinokada/markdown-docs-as-pdf.git
+git count-objects -v
+pnpm i
+rm -rf ./.git && git init && git add -A && git commit -m "local clone --depth=1" && git branch -M main && git remote add origin git@github.com:shinokada/markdown-docs-as-pdf.git  && git push origin main --force
 ```
