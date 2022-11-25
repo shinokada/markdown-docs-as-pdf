@@ -1,6 +1,6 @@
 # PDF Documentation 
 
-You can find all the docs in the [documents directory](https://github.com/shinokada/markdown-docs-as-pdf/tree/main/documents).
+You can find all the docs in the [pdf directory](https://github.com/shinokada/markdown-docs-as-pdf/tree/main/pdf).
 
 ## Available PDF
 
