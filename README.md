@@ -1,5 +1,7 @@
 # PDF Documentation 
 
+**For the latest docs, please download from [read-and-download-docs.vercel.app](https://read-and-download-docs.vercel.app/)**
+
 You can find all the docs in the [pdf directory](https://github.com/shinokada/markdown-docs-as-pdf/tree/main/pdf).
 
 ## How to download PDF
