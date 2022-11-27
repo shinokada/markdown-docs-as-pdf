@@ -14,6 +14,7 @@
   "scripts": {
     "build": "vivliostyle build",
     "preview": "vivliostyle preview",
+    "web": "vivliostyle build -o webpub/ -f webpub",
     "epub:kit": "ebook-convert SvelteKit-Document.pdf SvelteKit-Document.epub",
     "epub:svelte": "ebook-convert Svelte-Document.pdf Svelte-Document.epub"
   },
@@ -38,5 +39,8 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/shinokada/markdown-docs-as-pdf"
+  },
+  "dependencies": {
+    "http-server": "^14.1.1"
   }
 }

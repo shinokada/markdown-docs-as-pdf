@@ -12,6 +12,7 @@ SCRIPT_NAME=$(basename "$0")
 # Set variables
 DOCUMENTS="pdf"
 VIVLIOSTYLE=".vivliostyle"
+WEBAPP="/Users/shinichiokada/Vivliostyle/offlinedocs/docs/frameworks"
 
 # Keep readlinkf function
 readlinkf() {
@@ -56,12 +57,13 @@ script_dir=${self%/*}
     . "${script_dir}/lib/getoptions.sh"
     . "${script_dir}/lib/main_definition.sh"
     . "${script_dir}/lib/utils.sh"
-    # . "${script_dir}/lib/svelte_definition.sh"
+    . "${script_dir}/lib/framework_definition.sh"
     . "${script_dir}/lib/create_definition.sh"
     . "${script_dir}/lib/utils_sveltekit.sh"
     . "${script_dir}/lib/utils_pnpm.sh"
     . "${script_dir}/lib/utils_react.sh"
     . "${script_dir}/lib/utils_svelte.sh"
+    . "${script_dir}/lib/utils_sveltekit.sh"
     . "${script_dir}/lib/utils_nuxt.sh"
     . "${script_dir}/lib/utils_vite.sh"
     . "${script_dir}/lib/utils_slidev.sh"
@@ -99,9 +101,12 @@ if [ $# -gt 0 ]; then
     shift
     case $cmd in
     all)
+        eval "$(getoptions parser_definition_framework parse "$0")"
+        parse "$@"
+        eval "set -- $REST"
         # shellcheck disable=SC1091
         . "${script_dir}/src/all.sh"
-        fn_all 
+        fn_all "$@"
         ;;
     create)
         eval "$(getoptions parser_definition_create parse "$0")"
@@ -112,34 +117,52 @@ if [ $# -gt 0 ]; then
         fn_create "$@"
         ;;
     nuxt)
+        eval "$(getoptions parser_definition_framework parse "$0")"
+        parse "$@"
+        eval "set -- $REST"
         # shellcheck disable=SC1091
         . "${script_dir}/src/nuxt.sh"
-        fn_nuxt
+        fn_nuxt "$@"
         ;;
     react)
+        eval "$(getoptions parser_definition_framework parse "$0")"
+        parse "$@"
+        eval "set -- $REST"
         # shellcheck disable=SC1091
         . "${script_dir}/src/react.sh"
-        fn_react
+        fn_react "$@"
         ;;
     slidev)
+        eval "$(getoptions parser_definition_framework parse "$0")"
+        parse "$@"
+        eval "set -- $REST"
         # shellcheck disable=SC1091
         . "${script_dir}/src/slidev.sh"
-        fn_slidev
+        fn_slidev "$@"
         ;;
     svelte)
+        eval "$(getoptions parser_definition_framework parse "$0")"
+        parse "$@"
+        eval "set -- $REST"
         # shellcheck disable=SC1091
         . "${script_dir}/src/svelte.sh"
-        fn_svelte
+        fn_svelte "$@"
         ;;
     sveltekit)
+        eval "$(getoptions parser_definition_framework parse "$0")"
+        parse "$@"
+        eval "set -- $REST"
         # shellcheck disable=SC1091
         . "${script_dir}/src/sveltekit.sh"
-        fn_sveltekit
+        fn_sveltekit "$@"
         ;;
     vitest)
+        eval "$(getoptions parser_definition_framework parse "$0")"
+        parse "$@"
+        eval "set -- $REST"
         # shellcheck disable=SC1091
         . "${script_dir}/src/vitest.sh"
-        fn_vitest
+        fn_vitest "$@"
         ;;
     # more lines
     --) ;; # no subcommand, arguments only

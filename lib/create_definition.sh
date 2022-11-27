@@ -1,9 +1,10 @@
 parser_definition_create() {
     setup REST plus:true help:usage abbr:true -- \
         "Usage: ${2##*/} [options...] [arguments...]" ''
-    msg -- 'create example' ''
+    msg -- 'create command' ''
     msg -- 'Options:'
     flag KEEP -k --keep -- "Keep Vivliostyle files"
+    flag WEB -w --web -- "Run vivliostyle build -o webpub/ -f webpub without creating PDF"
     flag PREVIEW -p --preview -- "Run npm run preview to preview on a browser"
     flag COVER -c --cover -- "Add cover page"
     param LANG -l --lang init:="en" -- "Language default is en. es, de, fr, ja, ko, etc."

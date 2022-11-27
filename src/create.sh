@@ -6,8 +6,9 @@ fn_create() {
   fi
 
   WORKSPACE="${script_dir}/${VIVLIOSTYLE}/${NAME}/${LANG}"
-  DOCDIR="${script_dir}/${DOCUMENTS}/${NAME}"
+  DOCDIR="${script_dir}/${DOCUMENTS}/${NAME}/${LANG}"
   FILENAME1="filenames1"
+  
   # get $LANGUAGE
   get_language $LANG # this returns LANGUAGE
   
@@ -21,11 +22,12 @@ fn_create() {
   if [ -f "${script_dir}/${FILENAME1}" ]; then
     rm "${script_dir}/${FILENAME1}"
   fi
+
   # cleanup the previous doc
-  if [ -f "${DOCDIR}/${NAME}-${LANG}.pdf" ]; then
-    bannerColor "Removing the previous ${NAME}-${LANG} ..." "blue" "*"
-    cleanup_doc
-  fi
+  # if [[ !$WEB && -f "${DOCDIR}/${NAME}-${LANG}.pdf" ]]; then
+  #   bannerColor "Removing the previous ${NAME}-${LANG} ..." "blue" "*"
+  #   cleanup_doc
+  # fi
 
   # create filename1
   touch "${script_dir}/${FILENAME1}" 
@@ -35,13 +37,15 @@ fn_create() {
     bannerColor "Removing the previous ${WORKSPACE} dir." "blue" "*"
     rm -rf "${WORKSPACE:?Does not exist}/"
   fi
+
+  
   # if there is a "${script_dir}/${DOCUMENTS}/${NAME}/${LANG}" dir
   # remove it and create a new
-  if [ -d "${script_dir}/${DOCUMENTS}/${NAME}/${LANG}" ]; then
+  if [[ !$WEB && -d "${script_dir}/${DOCUMENTS}/${NAME}/${LANG}" ]]; then
     rm -rf "${script_dir}/${DOCUMENTS}/${NAME}/${LANG}"
+    mkdir -p "${script_dir}/${DOCUMENTS}/${NAME}/${LANG}"
   fi
-  mkdir -p "${script_dir}/${DOCUMENTS}/${NAME}/${LANG}"
-
+  
   bannerColor "Creating ${WORKSPACE}." "green" "*"
   # create a new dir
   mkdir -p "${WORKSPACE}"
@@ -59,17 +63,20 @@ fn_create() {
       echo "not able to clone"
       exit 1
   }
+  
+  # Get INDEXDIR
+  get_index_dir $NAME $LANG
 
   # start creating vivliostyle.config.js
   titlename=${NAME^^}
   cat << EOF > "${script_dir}/vivliostyle.config.js"
 module.exports = {
   author: "${titlename}",
-  theme: 'prism-coy-theme',
+  theme: 'https://raw.githubusercontent.com/shinokada/prism-coy-theme/main/theme_common.css',
   size: "${PAPERSIZE}",
   language: "${LANG}",
   entry: [
-    "${WORKSPACE}/index.md",
+    "${INDEXDIR}/index.md",
 EOF
 
   # For vivliostyle.config.js
@@ -85,8 +92,13 @@ EOF
         clean_nuxt "$file"
         fix_link "$file"
         append_mixed_footnote "$file" 
-        # change /img/docs/ to ../../../static/img/docs
-        sed -i 's|/img/docs|../../../../static/img/docs|' "${file}"
+        if [ $WEB ]; then
+        # for web change /img/docs/ to ../docs
+          sed -i 's|/img/docs|../docs|' "${file}"
+        else
+          # change /img/docs/ to ../../../static/img/docs
+          sed -i 's|/img/docs|../../../../static/img/docs|' "${file}"
+        fi
         echo "\"${file}\"," >> "${script_dir}/${FILENAME1}"
       fi
     done;
@@ -126,6 +138,10 @@ EOF
       get_react_title "$file"
       fix_link "$file"
       append_mixed_footnote "$file" 1 # docs/*.md
+      if [ $WEB ]; then
+        # for web change /img/docs/ to ../docs
+        sed -i 's|../images/docs|./docs|' "${file}"
+      fi
       echo "\"${file}\"," >> "${script_dir}/${FILENAME1}"
     done;
   elif [ $NAME = 'slidev' ]; then
@@ -142,6 +158,10 @@ EOF
         if [ $file != "${WORKSPACE}/index.md" ];then
         clean_slidev_internal_link $file
         append_mixed_footnote "$file" 1
+        if [ $WEB ]; then
+          # for web change /img/docs/ to ../docs
+          sed -i 's|../public/screenshots|../public|' "${file}"
+        fi
         echo "\"${file}\"," >> "${script_dir}/${FILENAME1}"
         fi
       fi
@@ -176,10 +196,15 @@ EOF
   elif [ $NAME = 'vite' ]; then # vite
     for file in "${WORKSPACE}"/guide/*.md;
     do
+      # bannerColor "Cleaning files ..." "blue" "*"
       clean_vite "$file"
+      # bannerColor "Appending footnote ..." "blue" "*"
       append_mixed_footnote "$file" 1
       echo "\"${file}\"," >> "${script_dir}/${FILENAME1}"
     done;
+    # change "${WORKSPACE}/guide/index.md", to "${WORKSPACE}/guide/getting-started.md" since it is the same as vivliostyle index.md
+    mv ${WORKSPACE}/guide/index.md ${WORKSPACE}/guide/getting-started.md
+    sed -i 's/index.md/getting-started.md/' "${script_dir}/${FILENAME1}"
   elif [ $NAME = 'vitepress' ]; then # vitepress
     . "${script_dir}/lib/utils_vitepress.sh"
     for file in "${WORKSPACE}"/*.md;
@@ -199,6 +224,7 @@ EOF
       fi
     done;
   elif [ $NAME = 'vue' ]; then
+    . "${script_dir}/lib/utils_vue.sh"
     for file in $(find ${WORKSPACE} -name '*.md');
     do
       append_mixed_footnote "$file" 2
@@ -224,7 +250,7 @@ EOF
   sort -u "${script_dir}/${FILENAME1}" >> "${script_dir}/vivliostyle.config.js"
 
   # create a colophon.md
-  cat << EOF > "${WORKSPACE}/colophon.md"
+  cat << EOF > "${INDEXDIR}/colophon.md"
 <section id="colophon" role="doc-colophon">
 
 ## Colophon
@@ -243,7 +269,7 @@ This book is created by using the following sources:
 EOF
 
   # Add colophon to vivliostyle.config.js
-  echo "\"${WORKSPACE}/colophon.md\"],title: \"${NAME}\",};" >> "${script_dir}/vivliostyle.config.js"
+  echo "\"${INDEXDIR}/colophon.md\"],title: \"${NAME}\",};" >> "${script_dir}/vivliostyle.config.js"
   
   # Index page using index.md
   # add FILENAME and html to ${WORKSPACE}/index.md
@@ -251,11 +277,11 @@ EOF
   # get IMGNAME from get_cover_image function
   get_cover_image ${NAME}
 
-  cat << EOF > "${WORKSPACE}/index.md"
+  cat << EOF > "${INDEXDIR}/index.md"
 # ${titlename} Docs - ${LANGUAGE}
 
-<img src="${script_dir}/images/${IMGNAME}" style="display: flex;
-justify-content: center; padding-top: 100px;" />
+<img src="../../../images/${IMGNAME}" style="display: flex;
+justify-content: center; padding-top: 50px; max-width:250px;" />
 
 <nav id="toc" role="doc-toc">
 
@@ -278,7 +304,7 @@ EOF
     # remove the last 5 characters, .md",
     HTML=${temp::-5}
     # replace $WORKSPACE with .
-    HTML=${HTML/${WORKSPACE}/.}
+    HTML=${HTML/${INDEXDIR}/.}
 
     TITLEBASENAME=$(basename $line)
 
@@ -350,53 +376,114 @@ EOF
     fi
 
     # for svelte that has html in the same dir
-    echo "- [$TITLE](${HTML}.html)" >> "${WORKSPACE}/index.md"
+    echo "- [$TITLE](${HTML}.html)" >> "${INDEXDIR}/index.md"
   done
 
   # add the finishing tag to index.md
-  cat << EOF >> "${WORKSPACE}/index.md"
+  cat << EOF >> "${INDEXDIR}/index.md"
 
 </nav>
 EOF
 
   bannerColor "Created index.md." "green" "*"
-  # run npm run build
-  bannerColor "Creating a PDF file ..." "blue" "*"
   cd ${script_dir}
-  $(npm run build > /dev/null ) 
-
-  bannerColor "PDF is created." "green" "*"
-  # move PDF
-  bannerColor "Moving the PDF file ..." "blue" "*"
-  
-  mv "${script_dir}/${NAME}.pdf" "${script_dir}/${DOCUMENTS}/${NAME}/${LANG}/${NAME}.pdf"
-
-  # add cover page
-  if [[ $COVER -gt 0 ]]; then
-    bannerColor "Adding a cover page." "blue" "*"
-    pdfunite "${script_dir}/${DOCUMENTS}/covers/${NAME}.pdf" "${DOCDIR}/${LANG}/${NAME}.pdf" "${DOCDIR}/${LANG}/${NAME}-${LANG}.pdf" >/dev/null 2>&1 || {
-          echo "not able to combine pdfs."
-          exit 1
-      }
+  if [ $WEB ]; then
+    bannerColor "Creating WEB files ..." "blue" "*"
+    npm run web 
+    bannerColor "Created web files." "green" "*"
+    # remove webpub/lib, webpub/pdf, webpub/spec, webpub/src, webpub/LICENSE, webpub/mdap, webpub/package.json, webpub/pnpm-lock.yaml, README
+    cd "webpub" || {
+      echo 'Do not exist.'
+      exit 1
+    }
+    bannerColor "Removing dirs ..." "cyan" "*"
+    rm -rf lib pdf spec src
+    bannerColor "Removing fils ..." "cyan" "*"
+    rm LICENSE mdap package.json pnpm-lock.yaml README.md
   else
-    mv "${DOCDIR}/${LANG}/${NAME}.pdf" "${DOCDIR}/${LANG}/${NAME}-${LANG}.pdf"
+    bannerColor "Creating a PDF file ..." "blue" "*"
+    npm run build >/dev/null
+    bannerColor "PDF is created." "green" "*"
+
+    # add cover page
+    if [[ $COVER -gt 0 ]]; then
+      bannerColor "Adding a cover page." "blue" "*"
+      pdfunite "${script_dir}/${DOCUMENTS}/covers/${NAME}.pdf" "${DOCDIR}/${LANG}/${NAME}.pdf" "${DOCDIR}/${LANG}/${NAME}-${LANG}.pdf" >/dev/null 2>&1 || {
+            echo "not able to combine pdfs."
+            exit 1
+        }
+    else
+      bannerColor "Moving the PDF file ..." "blue" "*"
+      mv "${script_dir}/${NAME}.pdf" "${script_dir}/${DOCUMENTS}/${NAME}/${LANG}/${NAME}-${LANG}.pdf"
+    fi
+      # if KEEP is on means leave the files
+    if [[ $KEEP != 1 ]]; then
+      bannerColor "Removing the previous ${WORKSPACE}." "blue" "*"
+      rm -rf "${WORKSPACE:?Does not exist}/"
+    fi
   fi
+
   if [[ $PREVIEW ]]; then
     bannerColor "Running preview ..." "blue" "*"
-    $(npm run preview >/dev/null )
+    npm run preview >/dev/null 
   fi
   
-  # if KEEP is on means leave the files
-  if [[ $KEEP != 1 ]]; then
-    bannerColor "Removing the previous ${WORKSPACE}." "blue" "*"
-    rm -rf "${WORKSPACE:?Does not exist}/"
-  fi
   # remove no cover pdf
-  if [ -f "${script_dir}/${DOCUMENTS}/${NAME}/${LANG}/${NAME}.pdf" ]; then
-    rm "${script_dir}/${DOCUMENTS}/${NAME}/${LANG}/${NAME}.pdf"
-  fi
+  # if [ -f "${script_dir}/${DOCUMENTS}/${NAME}/${LANG}/${NAME}.pdf" ]; then
+  #   rm "${script_dir}/${DOCUMENTS}/${NAME}/${LANG}/${NAME}.pdf"
+  # fi
 
   # echo '' > "${script_dir}/${FILENAME1}"
   
-  bannerColor "${NAME} ${LANG} PDF file is created." "blue" "*"
+  bannerColor "${NAME} ${LANG} files are created." "blue" "*"
+
+  # move necessary files and dirs to /Users/shinichiokada/Vivliostyle/offlinedocs
+  if [ $WEB ]; then
+    case $NAME in
+      bulletproof-react)
+          fn_move_files 
+          ;;
+      nestjs)
+          fn_move_files
+          ;;
+      nuxt)
+          fn_move_nuxt
+          ;;
+      pnpm)
+          fn_move_files
+          ;;
+      react)
+          fn_move_react
+          ;;
+      shellspec)
+          fn_move_files
+          ;;
+      slidev)
+          fn_move_slidev
+          ;;
+      svelte)
+          fn_move_files
+          ;;
+      sveltekit)
+          fn_move_sveltekit
+          ;;
+      tauri)
+          fn_move_tauri
+          ;;
+      vite)
+          fn_move_files
+          ;;
+      vitepress)
+          fn_move_files
+          ;;
+      vitest)
+          fn_move_files
+          ;;
+      vue)
+          fn_move_vue
+          ;;
+      # more lines
+      --) ;; # no subcommand, arguments only
+      esac
+  fi
 }

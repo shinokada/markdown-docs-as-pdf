@@ -1,3 +1,23 @@
+fn_move_files(){
+  bannerColor "Removing old files and dirs from ${WEBAPP}/${NAME}/${LANG} ..." "blue" "*"
+  # remove old dirs
+  rm -rf ${WEBAPP}/${NAME}/${LANG}
+  # create a new dir
+  mkdir -p ${WEBAPP}/${NAME}/${LANG} 
+  bannerColor "Successfully removed old dir from." "green" "*"
+
+  # remove non-html files 
+  bannerColor "Removing all non-HTML files from ${WORKSPACE} ..." "blue" "*"
+  find ${WORKSPACE} -type f -not -name '*.html' -delete
+  bannerColor "Successfully removed non-HTML files." "green" "*"
+
+  bannerColor "Minifying HTML files and outputting to ${WEBAPP}/${NAME}/${LANG}." "blue" "*"
+  # minify to ${WEBAPP}/${NAME}/${LANG}
+  html-minifier  --collapse-whitespace --remove-comments --remove-optional-tags --remove-redundant-attributes --remove-script-type-attributes --remove-tag-whitespace --use-short-doctype --minify-css true --minify-js true --input-dir ${WORKSPACE} --output-dir ${WEBAPP}/${NAME}/${LANG}
+  bannerColor "Successfully minified and moved." "green" "*"
+  # mkdir -p ${WEBAPP}/${NAME}/${LANG} && cp -r ${WORKSPACE}/*.html ${WEBAPP}/${NAME}/${LANG}
+}
+
 repeat(){
   END=$2
   for i in $(eval echo "{1..$END}")
@@ -5,32 +25,6 @@ repeat(){
     echo -n "$1"
   done
 }
-
-# append_footnote(){
-#   # check the slashes number 
-#   file=$1
-#   if [ "$#" -ge 2 ];then 
-#     depth=$2
-#     path_str=$(repeat '../' $depth)
-#     if [ $depth -gt 1 ];then
-#         echo "<span style='float: footnote;'><a href=\"${path_str}index.html#toc\">Go to TOC</a></span>" >> "$file"
-#     fi
-#   else
-#     echo '<span style="float: footnote;"><a href="./index.html#toc">Go to TOC</a></span>' >> "$file"
-#   fi
-#   #   if [ $depth -eq 1 ];then
-#   #     echo '<span style="float: footnote;"><a href="../index.html#toc">Go to TOC</a></span>' >> "$file"
-#   #   elif [ $depth -eq 2 ];then
-#   #     echo '<span style="float: footnote;"><a href="../../index.html#toc">Go to TOC</a></span>' >> "$file"
-#   #   elif [ $depth -eq 3 ];then
-#   #     echo '<span style="float: footnote;"><a href="../../../index.html#toc">Go to TOC</a></span>' >> "$file"
-#   #   elif [ $depth -eq 4 ];then
-#   #     echo '<span style="float: footnote;"><a href="../../../../index.html#toc">Go to TOC</a></span>' >> "$file"
-#   #   fi
-#   # else
-#   #   echo '<span style="float: footnote;"><a href="./index.html#toc">Go to TOC</a></span>' >> "$file"
-#   # fi
-# }
 
 append_mixed_footnote(){
   file=$1
@@ -42,7 +36,7 @@ append_mixed_footnote(){
   # you can check it the number of slashes
   # if a $file has no slashes after removing WORKSPACE then it should be ./index.html#toc
   # remove WORKSPACE from $file
-  dir=${file/"$WORKSPACE"/}
+  dir=${file/"$INDEXDIR"/}
   # file_without_workspace=$(sed "s|${WORKSPACE}||" ${file})
   # printf $file_without_workspace
   # find the number of slashes
@@ -211,6 +205,43 @@ get_category_title(){
   echo "$TITLE"
 }
 
+get_index_dir(){
+  NAME=$1
+  LANG=$2
+  case $NAME in
+    bulletproof-react)
+      INDEXDIR="${WORKSPACE}";;
+    nestjs)
+      INDEXDIR="${WORKSPACE}/content";;
+    nuxt)
+      INDEXDIR="${WORKSPACE}/content/${LANG}/docs";;
+    pnpm)
+      INDEXDIR="${WORKSPACE}";;
+    react)
+      INDEXDIR="${WORKSPACE}/docs";;
+    shellspec)
+      INDEXDIR="${WORKSPACE}";;
+    slidev)
+      INDEXDIR="${WORKSPACE}";;
+    svelte)
+      INDEXDIR="${WORKSPACE}";;
+    sveltekit)
+      INDEXDIR="${WORKSPACE}";;
+    tauri)
+      INDEXDIR="${WORKSPACE}";;
+    vite)
+      INDEXDIR="${WORKSPACE}/guide";;
+    vitepress)
+      INDEXDIR="${WORKSPACE}";;
+    vitest)
+      INDEXDIR="${WORKSPACE}";;
+    vue)
+      INDEXDIR="${WORKSPACE}";;
+    *)
+      INDEXDIR="${WORKSPACE}"
+    esac
+}
+
 get_github_url(){
   NAME=$1
   LANG=$2
@@ -329,6 +360,8 @@ get_language(){
     LANGUAGE="한국어";;
   pl)
     LANGUAGE="Polski";;
+  pt)
+    LANGUAGE="Português";;
   pt-br)
     LANGUAGE="Português(BR)";;
   ru)

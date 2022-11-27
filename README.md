@@ -2,6 +2,10 @@
 
 You can find all the docs in the [pdf directory](https://github.com/shinokada/markdown-docs-as-pdf/tree/main/pdf).
 
+## How to download PDF
+
+Go to a viewer and print as PDF.
+
 ## Available PDF
 
 ### Nestjs
@@ -75,29 +79,42 @@ pnpm i
 ### Nest
 
 ```
+# pdf
 ./mdap create -n nest
+# web
+./mdap create -n nest -w
 ```
 
 ### Nuxt
 
 ```
 # Nuxt in all languages
+# pdf
 ./mdap nuxt
+# web
+./mdap nuxt -w
 ```
 
 ### pnpm
 
 ```
+# pdf
 ./mdap create -n pnpm
+# web
+./mdap create -n pnpm -w
 ```
 
 ### React all docs
 
 ```
 # All lanugages
+# pdf
 ./mdap react
+# web
+./mdap react -w
 
 # Individual doc:
+# pdf
 ./mdap create -n react  
 ./mdap create -n react -l de  
 ./mdap create -n react -l fr  
@@ -108,21 +125,40 @@ pnpm i
 ./mdap create -n react -l pl 
 ./mdap create -n react -l zh-hans 
 ./mdap create -n react -l zh-hant
+
+# web
+./mdap create -n react -w
+./mdap create -n react -w -l de  
+./mdap create -n react -w -l fr  
+./mdap create -n react -w -l he 
+./mdap create -n react -w -l it 
+./mdap create -n react -w -l ja 
+./mdap create -n react -w -l ko 
+./mdap create -n react -w -l pl 
+./mdap create -n react -w -l zh-hans 
+./mdap create -n react -w -l zh-hant
 ```
 
 ### shellspec
 
 ```
+# pdf
 ./mdap create -n shellspec
+# web
+./mdap create -n shellspec -w
 ```
 
 ### slidev
 
 ```
 # Slidev in all languages
+# pdf
 ./mdap slidev
+# web
+./mdap slidev -w
 
 # individual language
+# pdf
 ./mdap create -n slidev
 ./mdap create -n slidev -l br
 ./mdap create -n slidev -l cn
@@ -133,57 +169,106 @@ pnpm i
 ./mdap create -n slidev -l ja
 ./mdap create -n slidev -l ru
 ./mdap create -n slidev -l vn
+
+# web
+./mdap create -n slidev -w 
+./mdap create -n slidev -w -l br
+./mdap create -n slidev -w -l cn
+./mdap create -n slidev -w -l de
+./mdap create -n slidev -w -l el
+./mdap create -n slidev -w -l es
+./mdap create -n slidev -w -l fr
+./mdap create -n slidev -w -l ja
+./mdap create -n slidev -w -l ru
+./mdap create -n slidev -w -l vn
 ```
 
 ### Svelte
 
 ```
 # All docs
+# pdf
 ./mdap svelte
+# web
+./mdap svelte -w
 
 # Individual doc
+# pdf
 ./mdap create -n svelte  
 ./mdap create -n svelte -l ja
+
+# web
+./mdap create -n svelte -w
+./mdap create -n svelte -w -l ja
 ```
 
 ### Sveltekit
 
 ```
 # All docs:
+# pdf
 ./mdap sveltekit
+# web
+./mdap sveltekit -w
+
 
 # Individual doc:
+# pdf
 ./mdap create -n sveltekit 
 ./mdap create -n sveltekit -l ja
+
+# web
+./mdap create -n sveltekit -w
+./mdap create -n sveltekit -w -l ja
 ```
 
 ### Vite
 
 ```
+# pdf
 ./mdap create -n vite
+
+# web
+./mdap create -n vite -w
 ```
 
 ### Vitepress
 
 ```
+# pdf
 ./mdap create -n vitepress
+
+# web 
+./mdap create -n vitepress -w
 ```
 
 ### Vitest
 
 ```
 # All languages
+# pdf
 ./mdap vitest
+# web
+./mdap vitest -w
 
 # Individual language
+# pdf
 ./mdap create -n vitest
 ./mdap create -n vitest -l cn 
+
+# web
+./mdap create -n vitest -w
+./mdap create -n vitest -w -l cn 
 ```
 
 ### Bulletproof-react
 
 ```
-./mdap create -n bulletproof-react 
+# pdf
+./mdap create -n bulletproof-react
+
+# web
+./mdap create -n bulletproof-react -w
 ```
 
 ## Todos
