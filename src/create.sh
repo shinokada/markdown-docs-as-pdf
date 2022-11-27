@@ -39,9 +39,10 @@ fn_create() {
   fi
 
   
-  # if there is a "${script_dir}/${DOCUMENTS}/${NAME}/${LANG}" dir
+  # if it is not WEB and there is a "${script_dir}/${DOCUMENTS}/${NAME}/${LANG}" dir
   # remove it and create a new
-  if [[ !$WEB && -d "${script_dir}/${DOCUMENTS}/${NAME}/${LANG}" ]]; then
+  if [[ $WEB -lt 1 && -d "${script_dir}/${DOCUMENTS}/${NAME}/${LANG}" ]]; then
+    bannerColor "Removing ${script_dir}/${DOCUMENTS}/${NAME}/${LANG}." "blue" "*"
     rm -rf "${script_dir}/${DOCUMENTS}/${NAME}/${LANG}"
     mkdir -p "${script_dir}/${DOCUMENTS}/${NAME}/${LANG}"
   fi
@@ -468,7 +469,7 @@ EOF
           fn_move_sveltekit
           ;;
       tauri)
-          fn_move_tauri
+          fn_move_files
           ;;
       vite)
           fn_move_files
