@@ -105,6 +105,12 @@ get_cover_image(){
     *)
       IMGNAME="pdf.svg"
     esac
+    
+    if [ $1 = 'vite' ];then
+      IMGNAME="../../../../images/${IMGNAME}"
+    else
+      IMGNAME="../../../images/${IMGNAME}"
+    fi
 }
 
 remove_slash_docs(){

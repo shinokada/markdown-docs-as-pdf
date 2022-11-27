@@ -264,7 +264,9 @@ This book is created by using the following sources:
 - Bash v5.2.2
 - Vivliostyle, https://vivliostyle.org/
 - By: @shinokada
+- Viewer: https://read-html-download-pdf.vercel.app/
 - GitHub repo: https://github.com/shinokada/markdown-docs-as-pdf
+- Viewer repo: https://github.com/shinokada/read-html-download-pdf
 
 </section>
 EOF
@@ -281,7 +283,7 @@ EOF
   cat << EOF > "${INDEXDIR}/index.md"
 # ${titlename} Docs - ${LANGUAGE}
 
-<img src="../../../images/${IMGNAME}" style="display: flex;
+<img src="${IMGNAME}" style="display: flex;
 justify-content: center; padding-top: 50px; max-width:250px;" />
 
 <nav id="toc" role="doc-toc">

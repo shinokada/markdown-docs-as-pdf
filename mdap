@@ -12,7 +12,7 @@ SCRIPT_NAME=$(basename "$0")
 # Set variables
 DOCUMENTS="pdf"
 VIVLIOSTYLE=".vivliostyle"
-WEBAPP="/Users/shinichiokada/Vivliostyle/offlinedocs/docs/frameworks"
+WEBAPP="/Users/shinichiokada/Vivliostyle/read-html-download-pdf/docs/frameworks"
 
 # Keep readlinkf function
 readlinkf() {
