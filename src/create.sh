@@ -73,7 +73,7 @@ fn_create() {
   cat << EOF > "${script_dir}/vivliostyle.config.js"
 module.exports = {
   author: "${titlename}",
-  theme: 'https://raw.githubusercontent.com/shinokada/prism-coy-theme/main/theme_common.css',
+  theme: "${script_dir}/themes/packages/prism-coy-theme/theme_common.css",
   size: "${PAPERSIZE}",
   language: "${LANG}",
   entry: [
