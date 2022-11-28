@@ -34,7 +34,7 @@ fn_create() {
 
   # if there is workspace directory, remove it
   if [ -d "${WORKSPACE}" ]; then
-    bannerColor "Removing the previous ${WORKSPACE} dir." "blue" "*"
+    bannerColor "Removing and creating the previous ${WORKSPACE} dir." "blue" "*"
     rm -rf "${WORKSPACE:?Does not exist}/"
   fi
 
@@ -67,13 +67,14 @@ fn_create() {
   
   # Get INDEXDIR
   get_index_dir $NAME $LANG
+  get_theme_link 
 
   # start creating vivliostyle.config.js
   titlename=${NAME^^}
   cat << EOF > "${script_dir}/vivliostyle.config.js"
 module.exports = {
   author: "${titlename}",
-  theme: "${script_dir}/themes/packages/prism-coy-theme/theme_common.css",
+  theme: "${THEMELINK}",
   size: "${PAPERSIZE}",
   language: "${LANG}",
   entry: [
@@ -417,6 +418,10 @@ EOF
         }
     else
       bannerColor "Moving the PDF file ..." "blue" "*"
+      # create if dir doesn't exist
+      if [ ! -d ${script_dir}/${DOCUMENTS}/${NAME}/${LANG} ];then
+        mkdir -p ${script_dir}/${DOCUMENTS}/${NAME}/${LANG}
+      fi
       mv "${script_dir}/${NAME}.pdf" "${script_dir}/${DOCUMENTS}/${NAME}/${LANG}/${NAME}-${LANG}.pdf"
     fi
       # if KEEP is on means leave the files

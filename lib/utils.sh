@@ -72,6 +72,14 @@ get_line_docs(){
   # find line e.g. [project config](/docs/configuration), pattern=](/docs/
 }
 
+get_theme_link(){
+  if [ $WEB ]; then
+      THEMELINK="/docs/themes/packages/prism-coy-theme/theme_common.css"
+    else      
+      THEMELINK="${script_dir}/themes/packages/prism-coy-theme/theme_common.css"
+    fi
+}
+
 get_cover_image(){
   case $1 in
     bulletproof-react)
@@ -105,11 +113,10 @@ get_cover_image(){
     *)
       IMGNAME="pdf.svg"
     esac
-    
-    if [ $1 = 'vite' ];then
-      IMGNAME="../../../../images/${IMGNAME}"
-    else
-      IMGNAME="../../../images/${IMGNAME}"
+    if [ $WEB ]; then
+      IMGNAME="/docs/images/${IMGNAME}"
+    else      
+      IMGNAME="${script_dir}/images/${IMGNAME}"
     fi
 }
 
