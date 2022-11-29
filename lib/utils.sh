@@ -13,7 +13,7 @@ fn_move_files(){
 
   bannerColor "Minifying HTML files and outputting to ${WEBAPP}/${NAME}/${LANG}." "blue" "*"
   # minify to ${WEBAPP}/${NAME}/${LANG}
-  html-minifier  --collapse-whitespace --remove-comments --remove-optional-tags --remove-redundant-attributes --remove-script-type-attributes --remove-tag-whitespace --use-short-doctype --minify-css true --minify-js true --input-dir ${WORKSPACE} --output-dir ${WEBAPP}/${NAME}/${LANG}
+  html-minifier  --collapse-whitespace --remove-comments --remove-optional-tags --remove-redundant-attributes --remove-script-type-attributes --remove-tag-whitespace --minify-css true --minify-js true --input-dir ${WORKSPACE} --output-dir ${WEBAPP}/${NAME}/${LANG}
   bannerColor "Successfully minified and moved." "green" "*"
   # mkdir -p ${WEBAPP}/${NAME}/${LANG} && cp -r ${WORKSPACE}/*.html ${WEBAPP}/${NAME}/${LANG}
 }
