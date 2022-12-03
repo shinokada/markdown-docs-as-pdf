@@ -116,6 +116,14 @@ if [ $# -gt 0 ]; then
         . "${script_dir}/src/create.sh"
         fn_create "$@"
         ;;
+    express)
+        eval "$(getoptions parser_definition_framework parse "$0")"
+        parse "$@"
+        eval "set -- $REST"
+        # shellcheck disable=SC1091
+        . "${script_dir}/src/express.sh"
+        fn_express "$@"
+        ;;
     nuxt)
         eval "$(getoptions parser_definition_framework parse "$0")"
         parse "$@"

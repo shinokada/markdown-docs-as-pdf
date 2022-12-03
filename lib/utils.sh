@@ -67,10 +67,10 @@ md_to_html(){
   sed -i 's|.md)|.html)|' $file
 }
 
-get_line_docs(){
-  line=$1
+# get_line_docs(){
+#   line=$1
   # find line e.g. [project config](/docs/configuration), pattern=](/docs/
-}
+# }
 
 get_theme_link(){
   if [ $WEB ]; then
@@ -127,15 +127,26 @@ remove_slash_docs(){
 }
 
 replace_three_dots(){
-   # 1. change :::note to <blockquote>, 2. add line break after Note
+   # 1. change :::note to <blockquote>, 2. add line break after Note or note, info
   # 3. change ::: to </blockquote>, 4. remove "
   sed -i -e 's/\:\:\:note/\<blockquote\>/' \
   -e 's/\:\:\:tip/\<blockquote\>/' \
+  -e 's/\:\:\:info/\<blockquote\>/' \
+  -e 's/\:\:\:warning/\<blockquote\>/' \
   -e '/Note/G' \
+  -e '/note/G' \
+  -e '/info/G' \
   -e 's/"//g' \
   -e 's/\:\:\:/\<\/blockquote\>/' "$file"
 }
 
+get_title(){
+  file=$1
+  # save title
+  # title=${file#*title: }
+  # Remove between ---
+  sed -i 's/^--- .* ^---//' $file
+}
 
 fix_link_html(){
   file=$1
@@ -156,9 +167,11 @@ clean_word(){
   # without -, /, and first letter uppercase
   WORD=$1
   # replace all - to spaces
+  # two /s instead of one / for global search
   WORD=${WORD//-/ /}
   # remove all / 
-  WORD=${WORD/\//}
+  # two /s instead of one / for global search
+  WORD=${WORD//\//}
   # remove all "
   # sed -i 's/"//g' $WORD
   # Uppercase the first characters
@@ -219,11 +232,14 @@ get_category_title(){
 }
 
 get_index_dir(){
+  # this will set where you want to keep index and colophon.me
   NAME=$1
   LANG=$2
   case $NAME in
     bulletproof-react)
       INDEXDIR="${WORKSPACE}";;
+    express)
+      INDEXDIR="${WORKSPACE}/${LANG}";;
     nestjs)
       INDEXDIR="${WORKSPACE}/content";;
     nuxt)
@@ -261,6 +277,10 @@ get_github_url(){
   
   if [ $NAME = 'bulletproof-react' ];then
     GITHUBURL="alan2207/bulletproof-react/docs"
+  elif [ $NAME = 'deta' ];then
+    GITHUBURL="deta/docs/docs"
+  elif [ $NAME = 'express' ];then
+    GITHUBURL="expressjs/expressjs.com"
   elif [ $NAME = 'nestjs' ];then
     GITHUBURL="nestjs/docs.nestjs.com"
   elif [ $NAME = 'next' ];then
@@ -391,6 +411,8 @@ get_language(){
     LANGUAGE="中文";;
   zh-hant)
     LANGUAGE="漢語";;
+  zh-tw)
+    LANGUAGE="國語";;
   *)
     LANGUAGE="English";;
   esac

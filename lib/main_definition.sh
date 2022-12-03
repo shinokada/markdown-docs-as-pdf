@@ -8,7 +8,8 @@ parser_definition() {
 
     msg -- '' 'Commands: '
     msg -- 'Use command -h for a command help.'
-    cmd create -- "Create a PDF doc"
+    cmd create -- "Create a PDF doc."
+    cmd express -- "Create all Express docs."
     cmd nuxt -- "Create Nuxt PDF docs in en/es/fr/ja/pt-br/pt."
     cmd svelte -- "Creates Svlete PDF docs in en/ja."
     cmd sveltekit -- "Creates SvleteKit PDF docs in en/ja."

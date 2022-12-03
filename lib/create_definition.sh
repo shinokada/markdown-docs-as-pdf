@@ -9,6 +9,8 @@ parser_definition_create() {
     flag COVER -c --cover -- "Add cover page"
     param LANG -l --lang init:="en" -- "Language default is en. es, de, fr, ja, ko, etc."
     param NAME -n --name -- "Name react, svelte"
+    param ONE -o --one -- "Number of layer is one"
+    param ONE -t --two -- "Number of layer is two"
     param URL -u --url -- "GitHub url for docs"
     param NUMSTRUCTURE -s --numstr -- "Layer number of directory, 1, 2, 3"
     param PAPERSIZE -p --papersize init:='A4' -- "Paper size"

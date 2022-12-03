@@ -112,6 +112,29 @@ EOF
       append_mixed_footnote "$file"
       echo "\"${file}\"," >> "${script_dir}/${FILENAME1}"
     done
+  elif [ $NAME = 'deta' ]; then
+    . "${script_dir}/lib/utils_deta.sh"
+    for file in $(find ${WORKSPACE} -name '*.md');
+    do
+      get_title "$file"
+      clean_deta "$file"
+      replace_three_dots "$file"
+      append_mixed_footnote "$file"
+      echo "\"${file}\"," >> "${script_dir}/${FILENAME1}"
+    done
+  elif [ $NAME = 'express' ]; then
+    . "${script_dir}/lib/utils_express.sh"
+    for file in $(find "${WORKSPACE}/${LANG}" -name '*.md');
+    do
+      # get_title "$file"
+      clean_express "$file"
+      # replace_three_dots "$file"
+      append_mixed_footnote "$file"
+      # middleware pages has no content only links
+      if [[ ! $file =~ "/middleware/" && ! $file =~ "/3x/" && ! $file =~ "/4x/" && ! $file =~ "/5x/" && ! $file =~ "/index.md" ]];then
+        echo "\"${file}\"," >> "${script_dir}/${FILENAME1}"
+      fi
+    done
   elif [ $NAME = 'nestjs' ]; then
     . "${script_dir}/lib/utils_nestjs.sh"
     for file in $(find "${WORKSPACE}/content" -name '*.md');
@@ -297,12 +320,6 @@ EOF
   LINES=$(sort -n "${script_dir}/${FILENAME1}" | cat)
   for line in $LINES
   do
-    # for sveltekit
-    # $line will be "/Users/shinichiokada/Bash_Projects/markdown-docs-as-pdf/.vivliostyle/sveltekit/en/docs/10-getting-started/10-introduction.md",
-    # For links, it should be changed to ./docs/10-getting-started/10-introduction.html
-    # or to ./faq/00-other-resources.html
-    # For title: Getting started - Introduction
-    # Getting started - Creating a project, etc
     # remove the first quotes "
     temp="${line#\"}"
     # remove the last 5 characters, .md",
@@ -313,6 +330,12 @@ EOF
     TITLEBASENAME=$(basename $line)
 
     if [ $NAME = 'sveltekit' ]; then
+      # for sveltekit
+      # $line will be "/Users/shinichiokada/Bash_Projects/markdown-docs-as-pdf/.vivliostyle/sveltekit/en/docs/10-getting-started/10-introduction.md",
+      # For links, it should be changed to ./docs/10-getting-started/10-introduction.html
+      # or to ./faq/00-other-resources.html
+      # For title: Getting started - Introduction
+      # Getting started - Creating a project, etc
       # bannerColor "Creating index.md for SvelteKit ..." "blue" "*"
       # title for sveltekit
       # sveltekit has docs and faq dir
@@ -335,6 +358,8 @@ EOF
       TITLE=${TITLE:3}
       # this will return TITLE without -, /, and first letter uppercase
       TITLE=$(clean_word $TITLE)
+    elif [ $NAME = 'express' ];then
+      TITLE=$(get_category_title "$line" $NAME)
     elif [ $NAME = 'nestjs' ];then
       TITLE=$(get_category_title "$line" $NAME)
     elif [ $NAME = 'nuxt' ];then
@@ -451,6 +476,9 @@ EOF
       bulletproof-react)
           fn_move_files 
           ;;
+      express)
+          fn_move_express
+          ;;
       nestjs)
           fn_move_files
           ;;
@@ -489,6 +517,9 @@ EOF
           ;;
       vue)
           fn_move_vue
+          ;;
+      *)
+          fn_move_files
           ;;
       # more lines
       --) ;; # no subcommand, arguments only
