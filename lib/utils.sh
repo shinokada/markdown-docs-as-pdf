@@ -102,6 +102,8 @@ get_cover_image(){
       IMGNAME="sveltekit.webp";;
     tauri)
       IMGNAME="tauri.svg";;
+    typescript)
+      IMGNAME="typescript.svg";;
     vite)
       IMGNAME="vite.svg";;
     vitepress)
@@ -164,18 +166,20 @@ fix_link_without_dot_html(){
 }
 
 clean_word(){
-  # without -, /, and first letter uppercase
+  # without -, /, _ and first letter uppercase
   WORD=$1
   # replace all - to spaces
   # two /s instead of one / for global search
-  WORD=${WORD//-/ /}
+  WORD="${WORD//-/ /}"
   # remove all / 
   # two /s instead of one / for global search
-  WORD=${WORD//\//}
+  WORD="${WORD//\/}"
+  # replaceall  _ to space
+  WORD="${WORD//_/ /}"
   # remove all "
   # sed -i 's/"//g' $WORD
   # Uppercase the first characters
-  WORD=${WORD^}
+  WORD="${WORD^}"
   echo "$WORD"
 }
 
@@ -345,6 +349,8 @@ get_github_url(){
     esac
   elif [ $NAME = 'tauri' ];then
     GITHUBURL="tauri-apps/tauri-docs/docs"
+  elif [ $NAME = 'typescript' ];then
+    GITHUBURL="microsoft/TypeScript-Website/packages/documentation/copy/en"
   elif [ $NAME = 'vite' ];then
     GITHUBURL="vitejs/vite/docs"
   elif [ $NAME = 'vitepress' ];then

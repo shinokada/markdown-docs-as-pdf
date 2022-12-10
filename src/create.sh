@@ -218,6 +218,18 @@ EOF
       append_mixed_footnote "$file" 2
       echo "\"${file}\"," >> "${script_dir}/${FILENAME1}"
     done;
+  elif [ $NAME = 'typescript' ]; then
+    . "${script_dir}/lib/utils_typescript.sh"
+    bannerColor "Replacing spaces with underbar for file names." "green" "*"
+    cd ${WORKSPACE} && find . -type d -exec rename 's/ /_/g' {} + >/dev/null 2>&1 &&    find . -type f -name '*.md' -exec rename 's/ /_/g' {} + >/dev/null 2>&1
+
+    for file in $(find "${WORKSPACE}/" -name '*.md');
+    do
+      # get_svelte_title "$file"
+      # clean_svelte "$file" 
+      append_mixed_footnote "$file" 2
+      echo "\"${file}\"," >> "${script_dir}/${FILENAME1}"
+    done;
   elif [ $NAME = 'vite' ]; then # vite
     for file in "${WORKSPACE}"/guide/*.md;
     do
@@ -389,13 +401,15 @@ EOF
       fi
     elif [ $NAME = 'slidev' ];then
       TITLE=$(get_category_title "$line" $NAME)
-    elif [ $NAME = 'vitest' ];then
-      TITLE=$(get_category_title "$line" $NAME)
     elif [ $NAME = 'tauri' ];then
       # already sourced utils_tauri.sh before
     
       TITLE=$(get_tauri_category_title "$line")
-    
+    elif [ $NAME = 'typescript' ];then    
+      TITLE=$(get_typescript_category_title "$line")
+      TITLE="${TITLE//\/}"
+    elif [ $NAME = 'vitest' ];then
+      TITLE=$(get_category_title "$line" $NAME)
     else
       # like react doc, there are only files not dir
       # this will return TITLE without -, /, and first letter uppercase
