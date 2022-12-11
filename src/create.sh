@@ -267,6 +267,9 @@ EOF
       append_mixed_footnote "$file" 2
       echo "\"${file}\"," >> "${script_dir}/${FILENAME1}"
     done;
+  elif [ $NAME = 'zod' ]; then
+    # append_mixed_footnote "$file" 
+    echo "\"${WORKSPACE}/README.md\"," >> "${script_dir}/${FILENAME1}"
   else
     for file in $(find "${WORKSPACE}" -name '*.md');
     do

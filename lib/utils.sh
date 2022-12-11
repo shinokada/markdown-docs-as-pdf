@@ -112,6 +112,8 @@ get_cover_image(){
       IMGNAME="vitest.svg";;
     vue)
       IMGNAME="vue.svg";;
+    zod)
+      IMGNAME="zod.svg";;
     *)
       IMGNAME="pdf.svg"
     esac
@@ -367,6 +369,8 @@ get_github_url(){
     esac
   elif [ $NAME = 'vue' ];then
     GITHUBURL="vuejs/docs/src/guide"
+  elif [ $NAME = 'zod' ];then
+    GITHUBURL="colinhacks/zod"
   else
     echo "URL does not exist."
     exit 1

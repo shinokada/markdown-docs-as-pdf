@@ -29,6 +29,12 @@ Go to a viewer and print as PDF.
 |Svelte| en, ja |[docs](https://github.com/shinokada/markdown-docs-as-pdf/tree/main/pdf/svelte)|
 | SvelteKit| en, ja | [docs](https://github.com/shinokada/markdown-docs-as-pdf/tree/main/pdf/sveltekit)|
 
+### Typescript
+
+| Name | Languages | Link |
+|--|--|--|
+| Typescript | en | [docs](https://github.com/shinokada/markdown-docs-as-pdf/tree/main/pdf/typescript) |
+
 ### Vite family
 
 | Name | Languages | Link |
