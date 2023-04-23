@@ -1,0 +1,46 @@
+{
+  "name": "markdown-docs-as-pdf",
+  "version": "0.5.0",
+  "description": "",
+  "main": "index.js",
+  "author": {
+    "name": "Shinichi Okada",
+    "email": "connect@codewithshin.com",
+    "url": "https://blog.codewithshin.com"
+  },
+  "bugs": "https://github.com/shinokada/markdown-docs-as-pdf/issues",
+  "homepage": "https://github.com/shinokada/markdown-docs-as-pdf",
+  "license": "MIT",
+  "scripts": {
+    "build": "vivliostyle build",
+    "preview": "vivliostyle preview",
+    "web": "vivliostyle build -o webpub/ -f webpub",
+    "epub:kit": "ebook-convert SvelteKit-Document.pdf SvelteKit-Document.epub",
+    "epub:svelte": "ebook-convert Svelte-Document.pdf Svelte-Document.epub"
+  },
+  "keywords": [
+    "pdf",
+    "docs",
+    "document",
+    "react",
+    "svelte",
+    "sveltekit",
+    "nuxt",
+    "vite",
+    "vivliostyle"
+  ],
+  "devDependencies": {
+    "@vivliostyle/cli": "latest",
+    "@vivliostyle/theme-academic": "^0.4.1",
+    "@vivliostyle/theme-gutenberg": "^0.1.1",
+    "@vivliostyle/theme-techbook": "^0.4.1",
+    "prism-coy-theme": "^0.0.10"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/shinokada/markdown-docs-as-pdf"
+  },
+  "dependencies": {
+    "http-server": "^14.1.1"
+  }
+}
