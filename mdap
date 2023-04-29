@@ -12,7 +12,9 @@ SCRIPT_NAME=$(basename "$0")
 # Set variables
 DOCUMENTS="pdf"
 VIVLIOSTYLE=".vivliostyle"
-WEBAPP="/Users/shinichiokada/Vivliostyle/read-doc-download-pdf/docs/frameworks"
+WEBDIR="/Users/shinichiokada/Vivliostyle/read-html-download-pdf/"
+APPDIR="docs/frameworks"
+WEBAPP="${WEBDIR}${APPDIR}"
 
 # Keep readlinkf function
 readlinkf() {
@@ -93,6 +95,7 @@ check_bash 5
 check_cmd vivliostyle
 check_cmd pdfunite
 check_cmd ebook-convert
+check_cmd tiged
 
 # Add more commands.
 # Don't forget to add your command in lib/main_definition.sh

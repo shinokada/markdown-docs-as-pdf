@@ -73,11 +73,11 @@ md_to_html(){
 # }
 
 get_theme_link(){
-  if [ $WEB ]; then
-      THEMELINK="/docs/themes/packages/prism-coy-theme/theme_common.css"
-    else      
+  # if [ $WEB ]; then
+  #     THEMELINK="${WEBAPP}docs/themes/packages/prism-coy-theme/theme_common.css"
+  #   else      
       THEMELINK="${script_dir}/themes/packages/prism-coy-theme/theme_common.css"
-    fi
+    # fi
 }
 
 get_cover_image(){
@@ -253,7 +253,7 @@ get_index_dir(){
     pnpm)
       INDEXDIR="${WORKSPACE}";;
     react)
-      INDEXDIR="${WORKSPACE}/docs";;
+      INDEXDIR="${WORKSPACE}";;
     shellspec)
       INDEXDIR="${WORKSPACE}";;
     slidev)
@@ -297,9 +297,9 @@ get_github_url(){
     GITHUBURL="pnpm/pnpm.github.io/docs"
   elif [ $NAME = 'react' ];then
     if [ $LANG = 'en' ];then
-      GITHUBURL="reactjs/reactjs.org/content"
+      GITHUBURL="reactjs/react.dev/src/content/learn"
     else
-      GITHUBURL="reactjs/${LANG}.reactjs.org/content"
+      GITHUBURL="reactjs/${LANG}.react.dev/src/content"
     fi
   elif [ $NAME = 'shellspec' ];then
     GITHUBURL="shellspec/shellspec/docs"

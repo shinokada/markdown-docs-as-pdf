@@ -6,16 +6,16 @@ fn_move_react(){
   mkdir -p ${WEBAPP}/${NAME}/${LANG} 
   bannerColor "Removed old files and dir." "green" "*"
 
-  bannerColor "Moving image files ..." "blue" "*"
-  cp -r ${WORKSPACE}/images/docs ${WEBAPP}/${NAME}/${LANG}
-  bannerColor "Successfully moved image files." "green" "*"
+  # bannerColor "Moving image files ..." "blue" "*"
+  # cp -r ${WORKSPACE}/images/docs ${WEBAPP}/${NAME}/${LANG}
+  # bannerColor "Successfully moved image files." "green" "*"
  
   bannerColor "Removing all non-HTML files from ${WORKSPACE} ..." "blue" "*"
   find ${WORKSPACE} -type f -not -name '*.html' -delete
   bannerColor "Successfully removed non-HTML files." "green" "*"
 
   bannerColor "Minifying HTML files and outputting to ${WEBAPP}/${NAME}/${LANG}." "blue" "*"
-  html-minifier  --collapse-whitespace --remove-comments --remove-optional-tags --remove-redundant-attributes --remove-script-type-attributes --remove-tag-whitespace --minify-css true --minify-js true --input-dir ${WORKSPACE}/docs --output-dir ${WEBAPP}/${NAME}/${LANG}
+  html-minifier  --collapse-whitespace --remove-comments --remove-optional-tags --remove-redundant-attributes --remove-script-type-attributes --remove-tag-whitespace --minify-css true --minify-js true --input-dir ${WORKSPACE} --output-dir ${WEBAPP}/${NAME}/${LANG}
   bannerColor "Successfully minified and moved." "green" "*"
 }
 

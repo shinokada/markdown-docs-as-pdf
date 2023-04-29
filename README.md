@@ -326,3 +326,29 @@ git count-objects -v
 pnpm i
 rm -rf ./.git && git init && git add -A && git commit -m "local clone --depth=1" && git branch -M main && git remote add origin git@github.com:shinokada/markdown-docs-as-pdf.git  && git push origin main --force
 ```
+
+## How to use this script
+
+### Requirements:
+
+```
+brew install poppler
+brew install calibre
+npm install -g @vivliostyle/cli
+npm install html-minifier -g
+```
+
+### Clone read-html-download-pdf:
+
+```
+git clone git@github.com:shinokada/read-html-download-pdf.git
+```
+
+### Update files
+
+Change the `WEBAPP` path in `mdap`:
+
+```
+WEBDIR="/Users/shinichiokada/Vivliostyle/read-doc-download-pdf/"
+APPDIR="docs/frameworks"
+```
