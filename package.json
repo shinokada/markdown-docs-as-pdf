@@ -34,7 +34,7 @@
     "@vivliostyle/theme-academic": "^0.4.1",
     "@vivliostyle/theme-gutenberg": "^0.1.1",
     "@vivliostyle/theme-techbook": "^0.4.1",
-    "prism-coy-theme": "^0.0.10"
+    "prism-coy-theme": "^0.1.2"
   },
   "repository": {
     "type": "git",
