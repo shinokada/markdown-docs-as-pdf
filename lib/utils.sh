@@ -332,7 +332,7 @@ get_github_url(){
   elif [ $NAME = 'svelte' ];then
     case $2 in
     en)
-      GITHUBURL="sveltejs/svelte/site/content/docs";;
+      GITHUBURL="sveltejs/svelte/documentation/docs";;
     ja)
       GITHUBURL="svelte-jp/svelte-site-jp/site/content/docs";;
     *)

@@ -206,7 +206,7 @@ EOF
     done;
   elif [ $NAME = 'svelte' ]; then # for svelte no sub dirs
     bannerColor "Updating svelte ..." "yellow" "*"
-    for file in "${WORKSPACE}"/*.md;
+    for file in $(find ${WORKSPACE} -name '*.md');
     do
       get_svelte_title "$file"
       clean_svelte "$file" 
