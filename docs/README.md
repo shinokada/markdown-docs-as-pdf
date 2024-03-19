@@ -6,7 +6,7 @@
 
 Bash script to create HTML and PDF files for JavaScript Frameworks.
 
-**For the latest docs, please download from [read-and-download-docs.vercel.app](https://read-and-download-docs.codewithshin.com/)**
+**For the latest docs, please download from [https://read-doc-download-pdf.codewithshin.com/](https://read-doc-download-pdf.codewithshin.com/)**
 
 You can find all the docs in the [pdf directory](https://github.com/shinokada/markdown-docs-as-pdf/tree/main/pdf).
 
