@@ -1,6 +1,12 @@
+<p align="center">
+<a href='https://ko-fi.com/Z8Z2CHALG' target='_blank'><img height='42' style='border:0px;height:42px;' src='https://storage.ko-fi.com/cdn/kofi3.png?v=3' alt='Buy Me a Coffee at ko-fi.com' /></a>
+</p>
+
 # PDF Documentation 
 
-**For the latest docs, please download from [read-and-download-docs.vercel.app](https://read-and-download-docs.vercel.app/)**
+Bash script to create HTML and PDF files for JavaScript Frameworks.
+
+**For the latest docs, please download from [read-and-download-docs.vercel.app](https://read-and-download-docs.codewithshin.com/)**
 
 You can find all the docs in the [pdf directory](https://github.com/shinokada/markdown-docs-as-pdf/tree/main/pdf).
 
