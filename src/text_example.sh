@@ -15,7 +15,7 @@ fn_text() {
     swapprint "$(blueprint "Swap and blue print.")"
     strikeprint "$(greenprint "Strike-through and green print.")"
 
-    bannerColor 'bannerColor example blue and *' "blue" "*"
+    newBannerColor 'newBannerColor example blue and *' "blue" "*"
     bannerSimple 'bannerSimple' "*"
-    bannerColor 'bannerColor example green and =' 'green' '='
+    newBannerColor 'newBannerColor example green and =' 'green' '='
 }

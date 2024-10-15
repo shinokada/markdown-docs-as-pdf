@@ -6,10 +6,10 @@ clean_nestjs(){
 }
 
 fn_move_nestjs(){
-  bannerColor "Removing old files and dirs from ${WEBAPP}/${NAME}/${LANG} ..." "blue" "*"
+  newBannerColor "Removing old files and dirs from ${WEBAPP}/${NAME}/${LANG} ..." "blue" "*"
   # remove the old dir
   rm -Rf ${WEBAPP}/${NAME}/${LANG}/*
-  bannerColor "Removed old files and dir from ${WEBAPP}/${NAME}/${LANG}." "green" "*"
+  newBannerColor "Removed old files and dir from ${WEBAPP}/${NAME}/${LANG}." "green" "*"
   # move /content/en/docs
   mkdir -p ${WEBAPP}/${NAME}/${LANG} && cp -r ${WORKSPACE}/content/${LANG}/docs/*.html ${WEBAPP}/${NAME}/${LANG}
   cp ${WORKSPACE}/content/${LANG}/docs/{index.html,colophon.html} ${WEBAPP}/${NAME}/${LANG}

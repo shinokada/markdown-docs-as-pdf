@@ -18,16 +18,16 @@ get_tauri_category_title(){
 }
 
 fn_move_tauri(){
-  bannerColor "Removing old files and dirs from ${WEBAPP}/${NAME}/${LANG} ..." "blue" "*"
+  newBannerColor "Removing old files and dirs from ${WEBAPP}/${NAME}/${LANG} ..." "blue" "*"
   # remove the old dir
   rm -Rf ${WEBAPP}/${NAME}/${LANG}
   # create a new dir
   mkdir -p ${WEBAPP}/${NAME}/${LANG} 
-  bannerColor "Removed old files and dir." "green" "*"
+  newBannerColor "Removed old files and dir." "green" "*"
 
-  bannerColor "Removing all non-HTML files from ${WORKSPACE} ..." "blue" "*"
+  newBannerColor "Removing all non-HTML files from ${WORKSPACE} ..." "blue" "*"
   find ${WORKSPACE} -type f -not -name '*.html' -delete
-  bannerColor "Successfully removed non-HTML files." "green" "*"
+  newBannerColor "Successfully removed non-HTML files." "green" "*"
 
   # mkdir -p ${WEBAPP}/${NAME}/${LANG}/api && cp -r ${WORKSPACE}/api/*.html ${WEBAPP}/${NAME}/${LANG}/api
   # mkdir -p ${WEBAPP}/${NAME}/${LANG}/api/js && cp -r ${WORKSPACE}/api/js/*.html ${WEBAPP}/${NAME}/${LANG}/api/js
@@ -44,9 +44,9 @@ fn_move_tauri(){
   # mkdir -p ${WEBAPP}/${NAME}/${LANG}/references/architecture/inter-process-communication && cp -r ${WORKSPACE}/references/architecture/inter-process-communication/*.html ${WEBAPP}/${NAME}/${LANG}/references/architecture/inter-process-communication
   # mkdir -p ${WEBAPP}/${NAME}/${LANG}/references/architecture/recipes && cp -r ${WORKSPACE}/references/architecture/recipes/*.html ${WEBAPP}/${NAME}/${LANG}/references/architecture/recipes
   # cp ${WORKSPACE}/{index.html,colophon.html} ${WEBAPP}/${NAME}/${LANG}
-  bannerColor "Minifying HTML files and outputting to ${WEBAPP}/${NAME}/${LANG}." "blue" "*"
+  newBannerColor "Minifying HTML files and outputting to ${WEBAPP}/${NAME}/${LANG}." "blue" "*"
   # minify to ${WEBAPP}/${NAME}/${LANG}
   html-minifier  --collapse-whitespace --remove-comments --remove-optional-tags --remove-redundant-attributes --remove-script-type-attributes --remove-tag-whitespace --minify-css true --minify-js true --input-dir ${WORKSPACE} --output-dir ${WEBAPP}/${NAME}/${LANG}
-  bannerColor "Successfully minified and moved." "green" "*"
+  newBannerColor "Successfully minified and moved." "green" "*"
 }
 

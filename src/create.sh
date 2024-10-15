@@ -25,7 +25,7 @@ fn_create() {
 
   # cleanup the previous doc
   # if [[ !$WEB && -f "${DOCDIR}/${NAME}-${LANG}.pdf" ]]; then
-  #   bannerColor "Removing the previous ${NAME}-${LANG} ..." "blue" "*"
+  #   newBannerColor "Removing the previous ${NAME}-${LANG} ..." "blue" "*"
   #   cleanup_doc
   # fi
 
@@ -34,7 +34,7 @@ fn_create() {
 
   # if there is workspace directory, remove it
   if [ -d "${WORKSPACE}" ]; then
-    bannerColor "Removing and creating the previous ${WORKSPACE} dir." "blue" "*"
+    newBannerColor "Removing and creating the previous ${WORKSPACE} dir." "blue" "*"
     rm -rf "${WORKSPACE:?Does not exist}/"
   fi
 
@@ -42,18 +42,18 @@ fn_create() {
   # if it is not WEB and there is a "${script_dir}/${DOCUMENTS}/${NAME}/${LANG}" dir
   # remove it and create a new
   if [[ $WEB -lt 1 && -d "${script_dir}/${DOCUMENTS}/${NAME}/${LANG}" ]]; then
-    bannerColor "Removing ${script_dir}/${DOCUMENTS}/${NAME}/${LANG}." "blue" "*"
+    newBannerColor "Removing ${script_dir}/${DOCUMENTS}/${NAME}/${LANG}." "blue" "*"
     rm -rf "${script_dir}/${DOCUMENTS}/${NAME}/${LANG}"
     mkdir -p "${script_dir}/${DOCUMENTS}/${NAME}/${LANG}"
   fi
   
-  bannerColor "Creating ${WORKSPACE}." "green" "*"
+  newBannerColor "Creating ${WORKSPACE}." "green" "*"
   # create a new dir
   mkdir -p "${WORKSPACE}"
   cd "${WORKSPACE}" || exit 1
 
   # clone the repo
-  bannerColor "Cloning ..." "green" "*"
+  newBannerColor "Cloning ..." "green" "*"
   if [ $URL ]; then
     GITHUBURL="$URL"
   else
@@ -85,9 +85,9 @@ EOF
   # Creating FILENAME1 to append it to vivliostyle.config.js later
   # each framework docs has different structure and format
   # nuxtjs
-  bannerColor "Updating markdown files." "green" "*"
+  newBannerColor "Updating markdown files." "green" "*"
   if [ $NAME = 'nuxt' ]; then # nuxt has sub dirs
-    bannerColor "Updating nuxt ..." "yellow" "*"
+    newBannerColor "Updating nuxt ..." "yellow" "*"
     for file in $(find "${WORKSPACE}/content/${LANG}/docs" -name '*.md');
     do
       if [[ $file != *"index.md" ]]; then
@@ -106,29 +106,18 @@ EOF
       fi
     done;
   elif [ $NAME = 'bulletproof-react' ]; then # bulletproof-react
-    bannerColor "Updating bulletproof-react ..." "yellow" "*"
+    newBannerColor "Updating bulletproof-react ..." "yellow" "*"
     . "${script_dir}/lib/utils_bulletproof.sh"
     for file in "${WORKSPACE}"/*.md;
     do
-      bannerColor "cleaning ..." "yellow" "*"
+      newBannerColor "cleaning ..." "yellow" "*"
       clean_bulletproof "$file"
-      bannerColor "appending ..." "yellow" "*"
-      append_mixed_footnote "$file"
-      echo "\"${file}\"," >> "${script_dir}/${FILENAME1}"
-    done
-  elif [ $NAME = 'deta' ]; then
-    bannerColor "Updating deta ..." "yellow" "*"
-    . "${script_dir}/lib/utils_deta.sh"
-    for file in $(find ${WORKSPACE} -name '*.md');
-    do
-      get_title "$file"
-      clean_deta "$file"
-      replace_three_dots "$file"
+      newBannerColor "appending ..." "yellow" "*"
       append_mixed_footnote "$file"
       echo "\"${file}\"," >> "${script_dir}/${FILENAME1}"
     done
   elif [ $NAME = 'express' ]; then
-    bannerColor "Updating express ..." "yellow" "*"
+    newBannerColor "Updating express ..." "yellow" "*"
     . "${script_dir}/lib/utils_express.sh"
     for file in $(find "${WORKSPACE}/${LANG}" -name '*.md');
     do
@@ -142,7 +131,7 @@ EOF
       fi
     done
   elif [ $NAME = 'nestjs' ]; then
-    bannerColor "Updating nestjs ..." "yellow" "*"
+    newBannerColor "Updating nestjs ..." "yellow" "*"
     . "${script_dir}/lib/utils_nestjs.sh"
     for file in $(find "${WORKSPACE}/content" -name '*.md');
     do
@@ -153,7 +142,7 @@ EOF
       echo "\"${file}\"," >> "${script_dir}/${FILENAME1}"
     done;
   elif [ $NAME = 'pnpm' ]; then
-    bannerColor "Updating pnpm ..." "yellow" "*"
+    newBannerColor "Updating pnpm ..." "yellow" "*"
     for file in $(find ${WORKSPACE} -name '*.md');
     do
       fix_pnpm_link "$file"
@@ -163,7 +152,7 @@ EOF
       echo "\"${file}\"," >> "${script_dir}/${FILENAME1}"
     done;
   elif [ $NAME = 'react' ]; then # for react no subdir
-    bannerColor "Updating react ..." "yellow" "*"
+    newBannerColor "Updating react ..." "yellow" "*"
     # echo "it's react"
     # cd ${WORKSPACE}/docs
     # echo $(PWD)
@@ -182,7 +171,7 @@ EOF
       echo "\"${file}\"," >> "${script_dir}/${FILENAME1}"
     done;
   elif [ $NAME = 'slidev' ]; then
-    bannerColor "Updating slidev ..." "yellow" "*"
+    newBannerColor "Updating slidev ..." "yellow" "*"
     # change root index to name.md 
     # mv "${WORKSPACE}/index.md" "${WORKSPACE}/slidev-index.md" 
     for file in $(find "${WORKSPACE}" -name '*.md');
@@ -205,16 +194,28 @@ EOF
       fi
     done;
   elif [ $NAME = 'svelte' ]; then # for svelte no sub dirs
-    bannerColor "Updating svelte ..." "yellow" "*"
+    newBannerColor "Updating svelte ..." "yellow" "*"
     for file in $(find ${WORKSPACE} -name '*.md');
     do
+      if [ $file != "${WORKSPACE}/index.md" ];then
       get_svelte_title "$file"
       clean_svelte "$file" 
       append_mixed_footnote "$file"
       echo "\"${file}\"," >> "${script_dir}/${FILENAME1}"
+      fi
     done;
+
+  # elif [ $NAME = 'svelte5' ]; then
+  #   newBannerColor "Updating svelte 5 ..." "yellow" "*"
+  #   for file in $(find ${WORKSPACE} -name '*.md');
+  #   do
+  #     get_svelte_title "$file"
+  #     clean_svelte "$file" 
+  #     append_mixed_footnote "$file"
+  #     echo "\"${file}\"," >> "${script_dir}/${FILENAME1}"
+  #   done;
   elif [ $NAME = 'sveltekit' ]; then  # for sveltekit has sub dirs
-    bannerColor "Updating sveltekit ..." "yellow" "*"
+    newBannerColor "Updating sveltekit ..." "yellow" "*"
     # sveltekit has sub-directories, use find command
     for file in $(find ${WORKSPACE} -name '*.md');
     do
@@ -224,7 +225,7 @@ EOF
       echo "\"${file}\"," >> "${script_dir}/${FILENAME1}"
     done;
   elif [ $NAME = 'tauri' ]; then # tauri has sub dirs
-    bannerColor "Updating tauri ..." "yellow" "*"
+    newBannerColor "Updating tauri ..." "yellow" "*"
     . "${script_dir}/lib/utils_tauri.sh"
     for file in $(find "${WORKSPACE}/" -name '*.md');
     do
@@ -235,9 +236,9 @@ EOF
       echo "\"${file}\"," >> "${script_dir}/${FILENAME1}"
     done;
   elif [ $NAME = 'typescript' ]; then
-    bannerColor "Updating typescript ..." "yellow" "*"
+    newBannerColor "Updating typescript ..." "yellow" "*"
     . "${script_dir}/lib/utils_typescript.sh"
-    bannerColor "Replacing spaces with underbar for file names." "green" "*"
+    newBannerColor "Replacing spaces with underbar for file names." "green" "*"
     cd ${WORKSPACE} && find . -type d -exec rename 's/ /_/g' {} + >/dev/null 2>&1 &&    find . -type f -name '*.md' -exec rename 's/ /_/g' {} + >/dev/null 2>&1
 
     for file in $(find "${WORKSPACE}/" -name '*.md');
@@ -248,12 +249,12 @@ EOF
       echo "\"${file}\"," >> "${script_dir}/${FILENAME1}"
     done;
   elif [ $NAME = 'vite' ]; then # vite
-    bannerColor "Updating vite ..." "yellow" "*"
+    newBannerColor "Updating vite ..." "yellow" "*"
     for file in "${WORKSPACE}"/guide/*.md;
     do
-      # bannerColor "Cleaning files ..." "blue" "*"
+      # newBannerColor "Cleaning files ..." "blue" "*"
       clean_vite "$file"
-      # bannerColor "Appending footnote ..." "blue" "*"
+      # newBannerColor "Appending footnote ..." "blue" "*"
       append_mixed_footnote "$file" 1
       echo "\"${file}\"," >> "${script_dir}/${FILENAME1}"
     done;
@@ -261,16 +262,18 @@ EOF
     mv ${WORKSPACE}/guide/index.md ${WORKSPACE}/guide/getting-started.md
     sed -i 's/index.md/getting-started.md/' "${script_dir}/${FILENAME1}"
   elif [ $NAME = 'vitepress' ]; then # vitepress
-    bannerColor "Updating vitepress ..." "yellow" "*"
+    newBannerColor "Updating vitepress ..." "yellow" "*"
     . "${script_dir}/lib/utils_vitepress.sh"
     for file in "${WORKSPACE}"/*.md;
     do
+      newBannerColor "Cleaning files ..." "blue" "*"
       clean_vitepress "$file" >/dev/null 2>&1
+      newBannerColor "Appending footnote ..." "blue" "*"
       append_mixed_footnote "$file"
       echo "\"${file}\"," >> "${script_dir}/${FILENAME1}"
     done;
   elif [ $NAME = 'vitest' ]; then # vitest has sub dirs
-    bannerColor "Updating vitest ..." "yellow" "*"
+    newBannerColor "Updating vitest ..." "yellow" "*"
     . "${script_dir}/lib/utils_vitest.sh"
     for file in $(find "${WORKSPACE}/" -name '*.md');
     do
@@ -281,7 +284,7 @@ EOF
       fi
     done;
   elif [ $NAME = 'vue' ]; then
-    bannerColor "Updating vue ..." "yellow" "*"
+    newBannerColor "Updating vue ..." "yellow" "*"
     . "${script_dir}/lib/utils_vue.sh"
     for file in $(find ${WORKSPACE} -name '*.md');
     do
@@ -289,7 +292,7 @@ EOF
       echo "\"${file}\"," >> "${script_dir}/${FILENAME1}"
     done;
   elif [ $NAME = 'zod' ]; then
-    bannerColor "Updating zod ..." "yellow" "*"
+    newBannerColor "Updating zod ..." "yellow" "*"
     # append_mixed_footnote "$file" 
     echo "\"${WORKSPACE}/README.md\"," >> "${script_dir}/${FILENAME1}"
   else
@@ -307,7 +310,7 @@ EOF
     done;
   fi
 
-  bannerColor "Sorting files and Updating vivliostyle.config.js files ..." "blue" "*"
+  newBannerColor "Sorting files and Updating vivliostyle.config.js files ..." "blue" "*"
   # todo: like nestjs, when there are md files and dirs/file.md, you need to sort by the last two file string rather than file name.
   sort -u "${script_dir}/${FILENAME1}" >> "${script_dir}/vivliostyle.config.js"
 
@@ -337,7 +340,7 @@ EOF
   
   # Index page using index.md
   # add FILENAME and html to ${WORKSPACE}/index.md
-  bannerColor "Creating index.md for TOC ..." "blue" "*"
+  newBannerColor "Creating index.md for TOC ..." "blue" "*"
   # get IMGNAME from get_cover_image function
   get_cover_image ${NAME}
 
@@ -353,7 +356,7 @@ justify-content: center; padding-top: 50px; max-width:250px;" />
 
 EOF
   
-  bannerColor "Adding titles and links to .vivliostyle/${INDEXDIR}/index.md for TOC ..." "blue" "*"
+  newBannerColor "Adding titles and links to ${INDEXDIR}/index.md for TOC ..." "blue" "*"
   LINES=$(sort -n "${script_dir}/${FILENAME1}" | cat)
   for line in $LINES
   do
@@ -373,7 +376,7 @@ EOF
       # or to ./faq/00-other-resources.html
       # For title: Getting started - Introduction
       # Getting started - Creating a project, etc
-      # bannerColor "Creating index.md for SvelteKit ..." "blue" "*"
+      # newBannerColor "Creating index.md for SvelteKit ..." "blue" "*"
       # title for sveltekit
       # sveltekit has docs and faq dir
       if [[ $line =~ "/docs/" ]]; then
@@ -453,36 +456,42 @@ EOF
 </nav>
 EOF
 
-  bannerColor "Created index.md." "green" "*"
+  newBannerColor "Created index.md." "green" "*"
 
   cd ${script_dir}
   if [ $WEB ]; then
-    bannerColor "Creating WEB files ..." "blue" "*"
-    npm run web 
-    bannerColor "Created web files." "green" "*"
+    newBannerColor "Creating WEB files ..." "blue" "*"
+    npm run web # this runs: vivliostyle build -o webpub/ -f webpub
+    newBannerColor "Created web files." "green" "*"
     # remove webpub/lib, webpub/pdf, webpub/spec, webpub/src, webpub/LICENSE, webpub/mdap, webpub/package.json, webpub/pnpm-lock.yaml, README
     cd "webpub" || {
       echo 'Do not exist.'
       exit 1
     }
-    bannerColor "Removing dirs ..." "cyan" "*"
+    newBannerColor "Removing dirs ..." "cyan" "*"
     rm -rf lib pdf spec src
-    bannerColor "Removing fils ..." "cyan" "*"
-    rm LICENSE mdap package.json pnpm-lock.yaml README.md
+    newBannerColor "Removing fils ..." "cyan" "*"
+
+    # rm LICENSE mdap package.json pnpm-lock.yaml README.md
+    if [ -f "LICENSE" ]; then rm "LICENSE"; fi
+    if [ -f "mdap" ]; then rm "mdap"; fi
+    if [ -f "package.json" ]; then rm "package.json"; fi
+    if [ -f "pnpm-lock.yaml" ]; then rm "pnpm-lock.yaml"; fi
+    if [ -f "README.md" ]; then rm "README.md"; fi
   else
-    bannerColor "Creating a PDF file ..." "blue" "*"
+    newBannerColor "Creating a PDF file ..." "blue" "*"
     npm run build >/dev/null
-    bannerColor "PDF is created." "green" "*"
+    newBannerColor "PDF is created." "green" "*"
 
     # add cover page
     if [[ $COVER -gt 0 ]]; then
-      bannerColor "Adding a cover page." "blue" "*"
+      newBannerColor "Adding a cover page." "blue" "*"
       pdfunite "${script_dir}/${DOCUMENTS}/covers/${NAME}.pdf" "${DOCDIR}/${LANG}/${NAME}.pdf" "${DOCDIR}/${LANG}/${NAME}-${LANG}.pdf" >/dev/null 2>&1 || {
             echo "not able to combine pdfs."
             exit 1
         }
     else
-      bannerColor "Moving the PDF file ..." "blue" "*"
+      newBannerColor "Moving the PDF file ..." "blue" "*"
       # create if dir doesn't exist
       if [ ! -d ${script_dir}/${DOCUMENTS}/${NAME}/${LANG} ];then
         mkdir -p ${script_dir}/${DOCUMENTS}/${NAME}/${LANG}
@@ -491,13 +500,13 @@ EOF
     fi
       # if KEEP is on means leave the files
     if [[ $KEEP != 1 ]]; then
-      bannerColor "Removing the previous ${WORKSPACE}." "blue" "*"
+      newBannerColor "Removing the previous ${WORKSPACE}." "blue" "*"
       rm -rf "${WORKSPACE:?Does not exist}/"
     fi
   fi
 
   if [[ $PREVIEW ]]; then
-    bannerColor "Running preview ..." "blue" "*"
+    newBannerColor "Running preview ..." "blue" "*"
     npm run preview >/dev/null 
   fi
   
@@ -508,7 +517,7 @@ EOF
 
   # echo '' > "${script_dir}/${FILENAME1}"
   
-  bannerColor "${NAME} ${LANG} files are created." "blue" "*"
+  newBannerColor "${NAME} ${LANG} files are created." "blue" "*"
 
   # move necessary files and dirs to /Users/shinichiokada/Vivliostyle/offlinedocs
   if [ $WEB ]; then

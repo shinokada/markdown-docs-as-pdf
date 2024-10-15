@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Markdown docs as pdf</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="description" content="Bash script to create HTML and PDF files for JavaScript Frameworks." />
+  <meta name="viewport"
+    content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+  <link rel="stylesheet" href="public/css/vue.css" />
+  <meta name="theme-color" content="#ffffff" />
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <style>
+    .markdown-section {
+      max-width: 700px;
+    }
+  </style>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-D8HRTFYCVN"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-D8HRTFYCVN');
+  </script>
+</head>
+
+<body>
+  <div id="app"></div>
+  <script>
+    window.$docsify = {
+      subMaxLevel: 1,
+      maxLevel: 3,
+      auto2top: true,
+      repo: 'shinokada/markdown-docs-as-pdf',
+      routerMode: 'history',
+      crossOriginLinks: [
+        'https://read-and-download-docs.codewithshin.com',
+        'https://github.com/shinokada/markdown-docs-as-pdf/tree/main/pdf',
+        'https://github.com/shinokada/markdown-docs-as-pdf/tree/main/pdf/nestjs',
+        'https://github.com/shinokada/markdown-docs-as-pdf/tree/main/pdf/react',
+        'https://github.com/shinokada/markdown-docs-as-pdf/tree/main/pdf/svelte',
+        'https://github.com/shinokada/markdown-docs-as-pdf/tree/main/pdf/sveltekit',
+        'https://github.com/shinokada/markdown-docs-as-pdf/tree/main/pdf/typescript',
+        'https://github.com/shinokada/markdown-docs-as-pdf/tree/main/pdf/vite',
+        'https://github.com/shinokada/markdown-docs-as-pdf/tree/main/pdf/vitest',
+        'https://github.com/shinokada/markdown-docs-as-pdf/tree/main/pdf/nuxt',
+        'https://github.com/shinokada/markdown-docs-as-pdf/tree/main/pdf/slidev',
+        'https://github.com/shinokada/markdown-docs-as-pdf/tree/main/pdf/vue',
+        'https://github.com/shinokada/markdown-docs-as-pdf/tree/main/pdf/vitepress',
+        'https://github.com/shinokada/markdown-docs-as-pdf/tree/main/pdf/pnpm',
+        'https://github.com/shinokada/markdown-docs-as-pdf/tree/main/pdf/shellspec',
+        'https://github.com/shinokada/markdown-docs-as-pdf/tree/main/pdf/tauri',
+        'https://github.com/shinokada/markdown-docs-as-pdf/tree/main/pdf/bulletproof-react'
+      ],
+      search: 'auto',
+      search: [
+        './README.md',
+      ],
+
+      // complete configuration parameters
+      search: {
+        maxAge: 180000,
+        paths: 'auto',
+        placeholder: 'Type to search',
+        noData: 'No Results!',
+        // Headline depth, 1 - 6
+        depth: 3,
+        hideOtherSidebarContent: false, // whether or not to hide other sidebar content
+      },
+    };
+  </script>
+  <script src="//cdn.jsdelivr.net/npm/docsify@4.13.1/lib/docsify.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/search.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/prismjs@1.28.0/prism.min.js"></script>
+</body>
+
+
+</html>

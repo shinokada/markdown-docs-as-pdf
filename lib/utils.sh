@@ -1,23 +1,31 @@
 fn_move_files(){
-  bannerColor "Removing old files and dirs from ${WEBAPP}/${NAME}/${LANG} ..." "blue" "*"
+  newBannerColor "Removing old files and dirs from ${WEBAPP}/${NAME}/${LANG} ..." "blue" "*"
   # remove old dirs
   rm -rf ${WEBAPP}/${NAME}/${LANG}
   # create a new dir
   mkdir -p ${WEBAPP}/${NAME}/${LANG} 
-  bannerColor "Successfully removed old dir from." "green" "*"
+  newBannerColor "Successfully removed old dir from." "green" "*"
 
   # remove non-html files 
-  bannerColor "Removing all non-HTML files from ${WORKSPACE} ..." "blue" "*"
+  newBannerColor "Removing all non-HTML files from ${WORKSPACE} ..." "blue" "*"
   find ${WORKSPACE} -type f -not -name '*.html' -delete
-  bannerColor "Successfully removed non-HTML files." "green" "*"
+  newBannerColor "Successfully removed non-HTML files." "green" "*"
 
-  bannerColor "Minifying HTML files and outputting to ${WEBAPP}/${NAME}/${LANG}." "blue" "*"
+  newBannerColor "Minifying HTML files and outputting to ${WEBAPP}/${NAME}/${LANG}." "blue" "*"
   # minify to ${WEBAPP}/${NAME}/${LANG}
   html-minifier  --collapse-whitespace --remove-comments --remove-optional-tags --remove-redundant-attributes --remove-script-type-attributes --remove-tag-whitespace --minify-css true --minify-js true --input-dir ${WORKSPACE} --output-dir ${WEBAPP}/${NAME}/${LANG}
-  bannerColor "Successfully minified and moved." "green" "*"
+  newBannerColor "Successfully minified and moved." "green" "*"
   # mkdir -p ${WEBAPP}/${NAME}/${LANG} && cp -r ${WORKSPACE}/*.html ${WEBAPP}/${NAME}/${LANG}
 }
 
+# Repeats a given string a specified number of times.
+#
+# Parameters:
+# - $1: The string to be repeated.
+# - $2: The number of times the string should be repeated.
+#
+# Returns:
+# - The repeated string.
 repeat(){
   END=$2
   for i in $(eval echo "{1..$END}")
@@ -55,6 +63,10 @@ append_mixed_footnote(){
   
 }
 
+# Fix broken links in a Markdown file by replacing ](/docs/ with ](./docs/
+#
+# @param {string} file - The path to the Markdown file.
+# @return {void} This function does not return anything.
 fix_link(){
   file=$1
   # ](/docs/ to ](./docs/
@@ -283,8 +295,6 @@ get_github_url(){
   
   if [ $NAME = 'bulletproof-react' ];then
     GITHUBURL="alan2207/bulletproof-react/docs"
-  elif [ $NAME = 'deta' ];then
-    GITHUBURL="deta/docs/docs"
   elif [ $NAME = 'express' ];then
     GITHUBURL="expressjs/expressjs.com"
   elif [ $NAME = 'nestjs' ];then
@@ -350,13 +360,13 @@ get_github_url(){
       exit 1 
     esac
   elif [ $NAME = 'tauri' ];then
-    GITHUBURL="tauri-apps/tauri-docs/docs"
+    GITHUBURL="tauri-apps/tauri-docs/tree/v1/docs/guides"
   elif [ $NAME = 'typescript' ];then
     GITHUBURL="microsoft/TypeScript-Website/packages/documentation/copy/en"
   elif [ $NAME = 'vite' ];then
     GITHUBURL="vitejs/vite/docs"
   elif [ $NAME = 'vitepress' ];then
-    GITHUBURL="vuejs/vitepress/docs/guide"
+    GITHUBURL="vuejs/vitepress/tree/main/docs/en/guide"
   elif [ $NAME = 'vitest' ];then
   case $2 in
     en)
@@ -368,7 +378,7 @@ get_github_url(){
       exit 1 
     esac
   elif [ $NAME = 'vue' ];then
-    GITHUBURL="vuejs/docs/src/guide"
+    GITHUBURL="vuejs/docs/tree/main/src/guide"
   elif [ $NAME = 'zod' ];then
     GITHUBURL="colinhacks/zod"
   else
@@ -594,6 +604,54 @@ function bannerColor() {
     echo "${edge}"
     echo "${msg}"
     echo "${edge}"
+    tput sgr 0
+    echo
+}
+
+# Usage: bannerColor "my title" "blue" "*" [border_width]
+function newBannerColor() {
+    case ${2} in
+    black)
+        color=0
+        ;;
+    red)
+        color=1
+        ;;
+    green)
+        color=2
+        ;;
+    yellow)
+        color=3
+        ;;
+    blue)
+        color=4
+        ;;
+    magenta)
+        color=5
+        ;;
+    cyan)
+        color=6
+        ;;
+    white)
+        color=7
+        ;;
+    *)
+        echo "color is not set"
+        exit 1
+        ;;
+    esac
+
+    # Set border width to 4th argument if provided, otherwise default to 10
+    border_width=${4:-10}
+    
+    # Create border string with specified width
+    border=$(printf "%0.s${3}" $(seq 1 $border_width))
+    
+    tput setaf ${color}
+    tput bold
+    echo "${border}"
+    echo "${1}"  # Print the message as-is, without adding border characters
+    echo "${border}"
     tput sgr 0
     echo
 }

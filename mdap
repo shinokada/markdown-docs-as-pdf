@@ -159,6 +159,14 @@ if [ $# -gt 0 ]; then
         . "${script_dir}/src/svelte.sh"
         fn_svelte "$@"
         ;;
+    svelte5)
+        eval "$(getoptions parser_definition_framework parse "$0")"
+        parse "$@"
+        eval "set -- $REST"
+        # shellcheck disable=SC1091
+        . "${script_dir}/src/svelte5.sh"
+        fn_svelte5 "$@"
+        ;;
     sveltekit)
         eval "$(getoptions parser_definition_framework parse "$0")"
         parse "$@"

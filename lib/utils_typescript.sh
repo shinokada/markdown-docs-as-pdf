@@ -8,10 +8,10 @@ get_typescript_category_title(){
   # remove the last 5 characters, .md
   title="${title::-5}"
   # replace - with space, first letter uppercase
-  # bannerColor "Replacing - with space, first letter uppercase ..." "cyan" "*"
+  # newBannerColor "Replacing - with space, first letter uppercase ..." "cyan" "*"
   title="$(clean_word $title)"
   # printf $title
-  # bannerColor "Replacing - with space, first letter uppercase ..." "magenta" "*"
+  # newBannerColor "Replacing - with space, first letter uppercase ..." "magenta" "*"
   category="$(clean_word $category)"
   # printf $category
   # combine to to create TITLE

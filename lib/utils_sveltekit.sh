@@ -44,19 +44,19 @@ clean_sveltekit(){
 }
 
 fn_move_sveltekit(){
-  bannerColor "Removing old files and dirs from ${WEBAPP}/${NAME}/${LANG} ..." "blue" "*"
+  newBannerColor "Removing old files and dirs from ${WEBAPP}/${NAME}/${LANG} ..." "blue" "*"
   # remove the old dir
   rm -Rf ${WEBAPP}/${NAME}/${LANG}
   # create a new dir
   mkdir -p ${WEBAPP}/${NAME}/${LANG} 
-  bannerColor "Removed old files and dir." "green" "*"
+  newBannerColor "Removed old files and dir." "green" "*"
 
-  bannerColor "Removing all non-HTML files from ${WORKSPACE} ..." "blue" "*"
+  newBannerColor "Removing all non-HTML files from ${WORKSPACE} ..." "blue" "*"
   find ${WORKSPACE} -type f -not -name '*.html' -delete
-  bannerColor "Successfully removed non-HTML files." "green" "*"
+  newBannerColor "Successfully removed non-HTML files." "green" "*"
 
-  bannerColor "Minifying HTML files and outputting to ${WEBAPP}/${NAME}/${LANG}." "blue" "*"
+  newBannerColor "Minifying HTML files and outputting to ${WEBAPP}/${NAME}/${LANG}." "blue" "*"
   # minify to ${WEBAPP}/${NAME}/${LANG}
   html-minifier  --collapse-whitespace --remove-comments --remove-optional-tags --remove-redundant-attributes --remove-script-type-attributes --remove-tag-whitespace --minify-css true --minify-js true --input-dir ${WORKSPACE} --output-dir ${WEBAPP}/${NAME}/${LANG}
-  bannerColor "Successfully minified and moved." "green" "*"
+  newBannerColor "Successfully minified and moved." "green" "*"
 }

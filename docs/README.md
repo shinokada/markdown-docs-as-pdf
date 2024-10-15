@@ -18,54 +18,54 @@ Go to a viewer and print as PDF.
 
 ### Nestjs
 
-| Name | Languages | Link |
-|--|---|--|
-| Nestjs| en| [docs](https://github.com/shinokada/markdown-docs-as-pdf/tree/main/pdf/nestjs)|
+| Name   | Languages | Link                                                                           |
+| ------ | --------- | ------------------------------------------------------------------------------ |
+| Nestjs | en        | [docs](https://github.com/shinokada/markdown-docs-as-pdf/tree/main/pdf/nestjs) |
 
 ### React family
 
-| Name | Languages | Link |
-|--|---|--|
-|React| en, de, fr, he, it, ja, ko, pl, zh-hans, zh-hant |[docs](https://github.com/shinokada/markdown-docs-as-pdf/tree/main/pdf/react) |
+| Name  | Languages                                        | Link                                                                          |
+| ----- | ------------------------------------------------ | ----------------------------------------------------------------------------- |
+| React | en, de, fr, he, it, ja, ko, pl, zh-hans, zh-hant | [docs](https://github.com/shinokada/markdown-docs-as-pdf/tree/main/pdf/react) |
 
 ### Svelte family
 
-| Name | Languages | Link |
-|--|---|--|
-|Svelte| en, ja |[docs](https://github.com/shinokada/markdown-docs-as-pdf/tree/main/pdf/svelte)|
-| SvelteKit| en, ja | [docs](https://github.com/shinokada/markdown-docs-as-pdf/tree/main/pdf/sveltekit)|
+| Name      | Languages | Link                                                                              |
+| --------- | --------- | --------------------------------------------------------------------------------- |
+| Svelte    | en, ja    | [docs](https://github.com/shinokada/markdown-docs-as-pdf/tree/main/pdf/svelte)    |
+| SvelteKit | en, ja    | [docs](https://github.com/shinokada/markdown-docs-as-pdf/tree/main/pdf/sveltekit) |
 
 ### Typescript
 
-| Name | Languages | Link |
-|--|--|--|
-| Typescript | en | [docs](https://github.com/shinokada/markdown-docs-as-pdf/tree/main/pdf/typescript) |
+| Name       | Languages | Link                                                                               |
+| ---------- | --------- | ---------------------------------------------------------------------------------- |
+| Typescript | en        | [docs](https://github.com/shinokada/markdown-docs-as-pdf/tree/main/pdf/typescript) |
 
 ### Vite family
 
-| Name | Languages | Link |
-|--|---|--|
-|Vite|en| [docs](https://github.com/shinokada/markdown-docs-as-pdf/tree/main/pdf/vite)|
-| Vitest| en | [docs](https://github.com/shinokada/markdown-docs-as-pdf/tree/main/pdf/vitest)|
+| Name   | Languages | Link                                                                           |
+| ------ | --------- | ------------------------------------------------------------------------------ |
+| Vite   | en        | [docs](https://github.com/shinokada/markdown-docs-as-pdf/tree/main/pdf/vite)   |
+| Vitest | en        | [docs](https://github.com/shinokada/markdown-docs-as-pdf/tree/main/pdf/vitest) |
 
 ### Vue family
 
-| Name | Languages | Link |
-|--|---|--|
-|Nuxt| en, es, fr, ja, pt-br, pt | [docs](https://github.com/shinokada/markdown-docs-as-pdf/tree/main/pdf/nuxt)|
-|Slidev| en, br, cn, de, el, es, fr, ja, ru, vn|[docs](https://github.com/shinokada/markdown-docs-as-pdf/tree/main/pdf/slidev)|
-|Vue| Not complete  | [docs](https://github.com/shinokada/markdown-docs-as-pdf/tree/main/pdf/vue)|
-| Vitepress | en | [docs](https://github.com/shinokada/markdown-docs-as-pdf/tree/main/pdf/vitepress)|
+| Name      | Languages                              | Link                                                                              |
+| --------- | -------------------------------------- | --------------------------------------------------------------------------------- |
+| Nuxt      | en, es, fr, ja, pt-br, pt              | [docs](https://github.com/shinokada/markdown-docs-as-pdf/tree/main/pdf/nuxt)      |
+| Slidev    | en, br, cn, de, el, es, fr, ja, ru, vn | [docs](https://github.com/shinokada/markdown-docs-as-pdf/tree/main/pdf/slidev)    |
+| Vue       | Not complete                           | [docs](https://github.com/shinokada/markdown-docs-as-pdf/tree/main/pdf/vue)       |
+| Vitepress | en                                     | [docs](https://github.com/shinokada/markdown-docs-as-pdf/tree/main/pdf/vitepress) |
 
 
 ## Other pdf docs
 
-| Name | Languages | Link |
-|--|--|--|
-| pnpm | en | [docs](https://github.com/shinokada/markdown-docs-as-pdf/tree/main/pdf/pnpm)|
-| Shellspec | en | [docs](https://github.com/shinokada/markdown-docs-as-pdf/tree/main/pdf/shellspec) |
-| Tauri | en | [docs](https://github.com/shinokada/markdown-docs-as-pdf/tree/main/pdf/tauri) |
-| Bullet proof React | en | [docs](https://github.com/shinokada/markdown-docs-as-pdf/tree/main/pdf/bulletproof-react)|
+| Name               | Languages | Link                                                                                      |
+| ------------------ | --------- | ----------------------------------------------------------------------------------------- |
+| pnpm               | en        | [docs](https://github.com/shinokada/markdown-docs-as-pdf/tree/main/pdf/pnpm)              |
+| Shellspec          | en        | [docs](https://github.com/shinokada/markdown-docs-as-pdf/tree/main/pdf/shellspec)         |
+| Tauri              | en        | [docs](https://github.com/shinokada/markdown-docs-as-pdf/tree/main/pdf/tauri)             |
+| Bullet proof React | en        | [docs](https://github.com/shinokada/markdown-docs-as-pdf/tree/main/pdf/bulletproof-react) |
 
 ## Limitations
 
@@ -76,12 +76,16 @@ All the TOC links work but some of internal links don't work due to each documen
 ### Requirements
 
 - Bash > v5
-- vivliostyle, To convert markdown files to a PDF file.
+- vivliostyle
 - pdfunite
+- ebook-convert
+- tiged
 
 ### Getting started
 
 ```sh
+npm install -g html-minifier @vivliostyle/cli
+brew install ebook-convert pdfunite
 git clone git@github.com:shinokada/svelte-docs.git
 cd svelte-docs
 pnpm i
@@ -89,6 +93,12 @@ pnpm i
 ```
 
 ## Commands
+
+### All
+
+```
+./mdap all -w
+```
 
 ### Nest
 
